@@ -344,4 +344,4 @@ def main(number_of_slots):  #main function
 main(16)
 #plant_seed()
 
-#shop()
+#shop

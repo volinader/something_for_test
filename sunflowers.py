@@ -332,7 +332,7 @@ def main(number_of_slots):  #main function
         i = 0
         
         
-        while error_check > 10:
+        while error_check > 104:
             print("testing on errors")
             something_wrong()
             time.sleep(click_delay())
@@ -340,11 +340,7 @@ def main(number_of_slots):  #main function
         
 
 
-#input("move your mouse to up left area and press ENTER...")
-""" x = peg.locateOnScreen('pictures\/try.png', confidence = 0.8)
-print(x) """
-#input("move your mouse to down right area and press ENTER...")
-#print(peg.position())
+
 main(16)
 #plant_seed()
 

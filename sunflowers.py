@@ -4,6 +4,16 @@ import time
 import random
 peg.FAILSAFE= False
 
+
+#edit lines below before using soft
+number_of_holes = 6 #number of holes at one area, prefer use 6 because some lands have 6 holes
+summ_num_of_all_holes = 17 #write numbers of all holes opened for plant
+number_of_lands = 3 #write numbers of opened lands
+vegetable = "sunflower"  #write your vegetable 'sunflower' 'carrot'
+seed_picture = "sunflower_seed" #write your vegetable seed name "cauliflower_seed" "carrot_seed"
+harvest_timer = 30 #write growing time of your plant (in sec)
+
+
 def click_delay():
     return random.uniform(0.06, 0.1)
 def mouse_movement_delay():
@@ -16,15 +26,6 @@ def shop_delay():
     return random.uniform(2, 5)
 def buy_delay():
     return random.uniform(0.09, 0.15)
-
-#edit lines below before using soft
-number_of_holes = 6 #number of holes at one area, prefer use 6 because some lands have 6 holes
-summ_num_of_all_holes = 17 #write numbers of all holes opened for plant
-number_of_lands = 3 #write numbers of opened lands
-vegetable = "sunflower"  #write your vegetable 'sunflower' 'carrot'
-seed_picture = "sunflower_seed" #write your vegetable seed name "cauliflower_seed" "carrot_seed"
-harvest_timer = 30 #write growing time of your plant (in sec)
-
 
 def land_choice():
     input('Move your mouse to left up part of area and press ENTER...')

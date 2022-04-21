@@ -5,22 +5,25 @@ import random
 peg.FAILSAFE= False
 
 def click_delay():
-    return random.uniform(0.1, 0.2)
+    return random.uniform(0.06, 0.1)
 def mouse_movement_delay():
-    return random.uniform(0.3, 0.5)
+    return random.uniform(0.3, 0.6)
 def generateMouseClearViewShift():
-    return random.randint(100, 200)
+    return random.randint(60, 150)
 def generateLoopDelay():
-    return random.randint(0, 1)
+    return random.randint(0, 0.05)
 def shop_delay():
     return random.uniform(2, 5)
 def buy_delay():
     return random.uniform(0.09, 0.15)
 
 #edit lines below before using soft
-number_of_holes = 6
+number_of_holes = 6 #number of holes at one area, prefer use 6 because some lands have 6 holes
+summ_num_of_all_holes = 17 #write numbers of all holes opened for plant
 number_of_lands = 3 #write numbers of opened lands
 vegetable = "sunflower"  #write your vegetable 'sunflower' 'carrot'
+seed_picture = "sunflower_seed" #write your vegetable seed name "cauliflower_seed" "carrot_seed"
+harvest_timer = 30 #write growing time of your plant (in sec)
 
 
 def land_choice():
@@ -35,20 +38,35 @@ def land_choice():
 
 
 def harvest_plants():
-    button_location = (peg.locateOnScreen(f'pictures\harvest\{vegetable}.png', confidence = 0.8))
-    if button_location is not None:    
-        button_center = peg.center(button_location)
-        button_x, button_y = button_center
-        peg.moveTo(button_x, button_y, mouse_movement_delay())
-        peg.click()
-        time.sleep(click_delay())
-        peg.moveTo(button_x, button_y, mouse_movement_delay())
-        peg.click()
-        print("Plants were harvested")
-        peg.moveTo(button_x + generateMouseClearViewShift(), button_y + generateMouseClearViewShift(), mouse_movement_delay())
+    for item in working_area:
+        i = 0
+        while i < number_of_holes:
+
+            no_seeds = (peg.locateOnScreen('pictures\/no_seeds.png', confidence = 0.8))
+            if no_seeds is not None:
+                shop()
+            else:
+                print('Seeds exist in inventory')
+
+            button_location = (peg.locateOnScreen(f'pictures\harvest\{vegetable}.png', confidence = 0.8, region = (item)))
+            if button_location is not None:    
+                button_center = peg.center(button_location)
+                button_x, button_y = button_center
+                peg.moveTo(button_x, button_y, mouse_movement_delay())
+                peg.click()
+                time.sleep(click_delay())
+                peg.moveTo(button_x, button_y, mouse_movement_delay())
+                peg.click()
+                print("Plants were harvested")
+                peg.moveTo(button_x + generateMouseClearViewShift(), button_y + generateMouseClearViewShift(), mouse_movement_delay())
         
-    else:
-        print("Nothing to harvest")
+            else:
+                print("Nothing to harvest")
+
+            reward_window = (peg.locateOnScreen("pictures\/rewards_window.png", confidence = 0.8))
+            if reward_window is not None:
+                get_rewards()
+            i+=1
 
 def plant_seed():
     for item in working_area:
@@ -56,6 +74,12 @@ def plant_seed():
         while i < number_of_holes:
             hoole_place = (peg.locateOnScreen('pictures\empty_hole.png', confidence = 0.8, region = (item)))
             
+            no_seeds = (peg.locateOnScreen('pictures\/no_seeds.png', confidence = 0.8))
+            if no_seeds is not None:
+                shop()
+            else:
+                print('Seeds exist in inventory')
+
             if hoole_place is not None:
                 button_center = peg.center(hoole_place)
                 button_x, button_y = button_center
@@ -63,6 +87,7 @@ def plant_seed():
                 peg.click()
                 print("Seed was planted")
                 peg.moveTo(button_x + generateMouseClearViewShift(), button_y + generateMouseClearViewShift(), mouse_movement_delay())
+            
             else:
                 print("No space for plant")
             i += 1
@@ -80,7 +105,6 @@ def get_rewards():
             print("reward")
             peg.moveTo(button_x, button_y, mouse_movement_delay())
             peg.click()
-            peg.moveTo(button_x + generateMouseClearViewShift(), button_y + generateMouseClearViewShift(), mouse_movement_delay())
         
             time.sleep(click_delay())
         reward_close = (peg.locateOnScreen("pictures\close_reward.png", confidence = 0.8))
@@ -111,7 +135,7 @@ def shop():
     exit = "pictures\shop\exit.png"
     open_metamask = "pictures\shop\open_metamask.png"
 
-    seeds_zero = (peg.locateOnScreen("pictures\shop\seed_picture.png", confidence = 0.8))
+    seeds_zero = (peg.locateOnScreen(f"pictures\shop\seed_pictures\{seed_picture}.png", confidence = 0.8))
     if seeds_zero is not None:
         time.sleep(shop_delay())
         shop_button = peg.locateOnScreen(shop, confidence = 0.8)
@@ -256,7 +280,7 @@ def shop():
             print('no transaction')
 
             
-    
+#checking on errors
 def something_wrong():
     session_expired = peg.locateOnScreen("pictures\session_exp\session_expired.png")
     something_wrong = peg.locateOnScreen("pictures\session_exp\something_wrong.png")
@@ -271,35 +295,13 @@ def something_wrong():
         time.sleep(10)
 
 
-
-
-
-
-
-        
-
-
-
-
 def steps_of_functions():
-
+    
     harvest_plants()
-    time.sleep(click_delay())
-
-    get_rewards()
-    time.sleep(click_delay())
-
-    shop()
-    time.sleep(click_delay())
-
     plant_seed()
-    time.sleep(click_delay())
+    time.sleep(harvest_timer)
     
     
-    
-    
-
-
 working_area = []
 def main(number_of_slots):  #main function
     if len(working_area) < 1:
@@ -325,9 +327,9 @@ def main(number_of_slots):  #main function
             print("error check", error_check)
         print("loop competed")
 
-        delay = generateLoopDelay()
-        print(f'Sleeping {delay} seconds')
-        time.sleep(delay)
+        #delay = generateLoopDelay()
+        #print(f'Sleeping {delay} seconds')
+        #time.sleep(delay)
             
         i = 0
         
@@ -338,10 +340,5 @@ def main(number_of_slots):  #main function
             time.sleep(click_delay())
             error_check = 0
         
+main(summ_num_of_all_holes)
 
-
-
-main(16)
-#plant_seed()
-
-#shop

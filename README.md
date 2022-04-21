@@ -4,6 +4,8 @@
 ### Here i will show you how to use it.
 Full instruction in the begining section of script. You need to change following lines:
 
+**First of all you need to do window zoom = 80%**
+
 <a href="https://ibb.co/rM8VdVR"><img src="https://i.ibb.co/Xp0qYqr/sunflowers1.png" alt="sunflowers1" border="0"></a>
 
 You need to decide what seed will you growing and choice **vegitable** , **seed_picture** and **harvest_timer** (it's how much time you seed will grow **in seconds**)

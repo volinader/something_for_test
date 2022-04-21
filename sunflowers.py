@@ -6,6 +6,7 @@ peg.FAILSAFE= False
 
 
 #edit lines below before using soft
+#window size 80%
 number_of_holes = 6 #number of holes at one area, prefer use 6 because some lands have 6 holes
 summ_num_of_all_holes = 17 #write numbers of all holes opened for plant
 number_of_lands = 3 #write numbers of opened lands

@@ -70,8 +70,8 @@ def harvest_plants():
                 get_rewards()
 
             session_expired = peg.locateOnScreen("pictures\session_exp\session_expired.png")
-            something_wrong = peg.locateOnScreen("pictures\session_exp\something_wrong.png")
-            if session_expired or something_wrong is not None:
+            something_wrong1 = peg.locateOnScreen("pictures\session_exp\something_wrong.png")
+            if session_expired or something_wrong1 is not None:
                 something_wrong()
             i+=1
 
@@ -294,6 +294,13 @@ def something_wrong():
     if something_wrong or session_expired is not None:
         peg.press("f5")
         time.sleep(10)
+        reload = peg.locateOnScreen("pictures\session_exp\/reload.png")
+        if reload is not None:
+            button_center13 = peg.center(reload)
+            button_x, button_y = button_center13
+            peg.moveTo(button_x, button_y, mouse_movement_delay())
+            peg.click()
+            time.sleep(10)
         start = peg.locateOnScreen("pictures\session_exp\start_farm.png")
         button_center13 = peg.center(start)
         button_x, button_y = button_center13
@@ -348,4 +355,3 @@ def main(number_of_slots):  #main function
             error_check = 0
         
 main(summ_num_of_all_holes)
-

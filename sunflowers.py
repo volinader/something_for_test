@@ -68,6 +68,11 @@ def harvest_plants():
             reward_window = (peg.locateOnScreen("pictures\/rewards_window.png", confidence = 0.8))
             if reward_window is not None:
                 get_rewards()
+
+            session_expired = peg.locateOnScreen("pictures\session_exp\session_expired.png")
+            something_wrong = peg.locateOnScreen("pictures\session_exp\something_wrong.png")
+            if session_expired or something_wrong is not None:
+                something_wrong()
             i+=1
 
 def plant_seed():
